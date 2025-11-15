@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Belajar di Rumah",
+    "date": "20 Juni",
+    "excerpt": "Lorem ipsum dolor sit amet adipcing amet adipcingamet adipci aqua lorem ipsum.",
+    "image": "https://picsum.photos/seed/news1/400/300"
+  },
+  {
+    "id": 2,
+    "title": "Kegiatan Belajar mengajar di Rumah",
+    "date": "20 Juni",
+    "excerpt": "Lorem ipsum dolor sit amet adipcing ipsum dolor sit amet adipcing aqua lorem ipsum.",
+    "image": "https://picsum.photos/seed/news2/400/300"
+  },
+  {
+    "id": 3,
+    "title": "Kegiatan Belajar mengajar di Rumah",
+    "date": "20 Juni",
+    "excerpt": "Lorem ipsum dolor sit amet adipcing ipsum dolor sit amet adipcing aqua lorem ipsum.",
+    "image": "https://picsum.photos/seed/news3/400/300"
+  },
+  {
+    "id": 4,
+    "title": "Kegiatan Pembelajaran Daring",
+    "date": "20 Juni",
+    "excerpt": "Lorem ipsum dolor sit amet adipcing ipsum dolor sit amet adipcing aqua lorem ipsum.",
+    "image": "https://picsum.photos/seed/news4/400/300"
+  }
+]
