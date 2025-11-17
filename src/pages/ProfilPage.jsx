@@ -1,3 +1,4 @@
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import {
   AcademicCapIcon,
   UserIcon,
@@ -12,7 +13,6 @@ import {
   EyeIcon,
   ClipboardDocumentListIcon
 } from '@heroicons/react/24/outline';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 
 const ProfilPage = () => {
   return (
