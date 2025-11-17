@@ -10,7 +10,9 @@ import {
   ChartBarIcon,
   HomeIcon,
   BuildingOfficeIcon,
-  InformationCircleIcon
+  InformationCircleIcon,
+  EyeIcon,
+  ClipboardDocumentListIcon
 } from '@heroicons/react/24/outline';
 
 const ProfilPage = () => {
@@ -195,11 +197,124 @@ const ProfilPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Visi dan Misi Section */}
+      <div className="bg-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            
+            {/* Visi */}
+            <div className="bg-white border-2 border-gray-200 rounded-xl p-8 shadow-lg hover:shadow-xl transition">
+              <div className="flex items-center justify-center mb-6">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                  <EyeIcon className="w-8 h-8 text-blue-600" />
+                </div>
+              </div>
+              <div className="bg-blue-500 text-white py-3 px-6 rounded-lg mb-6">
+                <h3 className="text-2xl font-bold text-center">Visi</h3>
+              </div>
+              <p className="text-gray-700 leading-relaxed text-center">
+                Membentuk pembelajar yang akhlakul karimah, berilmu, beretika, berwawasan lingkungan untuk menuju pentas dunia.
+              </p>
+            </div>
+
+            {/* Misi */}
+            <div className="bg-white border-2 border-gray-200 rounded-xl p-8 shadow-lg hover:shadow-xl transition">
+              <div className="flex items-center justify-center mb-6">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                  <ClipboardDocumentListIcon className="w-8 h-8 text-blue-600" />
+                </div>
+              </div>
+              <div className="bg-blue-500 text-white py-3 px-6 rounded-lg mb-6">
+                <h3 className="text-2xl font-bold text-center">Misi</h3>
+              </div>
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-2 font-bold">•</span>
+                  <span>Mewujudkan pendidikan dengan keteladanan</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-2 font-bold">•</span>
+                  <span>Mengembangkan budaya belajar dengan didasari pada kecintaan terhadap ilmu pengetahuan</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-2 font-bold">•</span>
+                  <span>Meningkatkan fasilitas sekolah menuju sekolah bersih, sehat dan berwawasan lingkungan</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Fasilitas Sekolah Section */}
+      <div className="bg-gray-50 py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+            Fasilitas Sekolah
+          </h2>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:scale-105">
+              <img 
+                src="https://picsum.photos/seed/aula-facility/400/300" 
+                alt="Aula Sekolah"
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4 text-center bg-gradient-to-b from-white to-gray-50">
+                <h3 className="font-bold text-gray-800 text-lg">Aula Sekolah</h3>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:scale-105">
+              <img 
+                src="https://picsum.photos/seed/kantin-facility/400/300" 
+                alt="Kantin"
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4 text-center bg-gradient-to-b from-white to-gray-50">
+                <h3 className="font-bold text-gray-800 text-lg">Kantin</h3>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:scale-105">
+              <img 
+                src="https://picsum.photos/seed/building-facility/400/300" 
+                alt="SDN01 Banjar Harjo"
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4 text-center bg-gradient-to-b from-white to-gray-50">
+                <h3 className="font-bold text-gray-800 text-lg">SDN01 Banjar Harjo</h3>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:scale-105">
+              <img 
+                src="https://picsum.photos/seed/field-facility/400/300" 
+                alt="Halaman"
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4 text-center bg-gradient-to-b from-white to-gray-50">
+                <h3 className="font-bold text-gray-800 text-lg">Halaman</h3>
+              </div>
+            </div>
+          </div>
+
+          {/* Slider Navigation untuk Fasilitas (Optional) */}
+          <div className="flex justify-center mt-8 gap-4">
+            <button className="w-10 h-10 rounded-full bg-gray-300 hover:bg-gray-400 flex items-center justify-center transition">
+              <ChevronLeftIcon className="w-5 h-5 text-gray-700" />
+            </button>
+            <button className="w-10 h-10 rounded-full bg-gray-300 hover:bg-gray-400 flex items-center justify-center transition">
+              <ChevronRightIcon className="w-5 h-5 text-gray-700" />
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-// Komponen InfoItem untuk Kolom Kiri (Biru)
 function InfoItem({ icon, label, value }) {
   return (
     <div className="flex items-start gap-3">
@@ -214,7 +329,6 @@ function InfoItem({ icon, label, value }) {
   );
 }
 
-// Komponen InfoCard untuk Kolom Kanan (Putih)
 function InfoCard({ icon, title, value, items = [] }) {
   return (
     <div className="bg-white p-6 rounded-xl shadow-md border hover:shadow-lg transition">
