@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import {
   AcademicCapIcon,
   UserIcon,
@@ -14,23 +12,12 @@ import {
   EyeIcon,
   ClipboardDocumentListIcon
 } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 
 const ProfilPage = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const slides = [
-    { src: "https://picsum.photos/800/400?random=1", caption: "Aula Sekolah" },
-    { src: "https://picsum.photos/800/400?random=2", caption: "Kantin" },
-    { src: "https://picsum.photos/800/400?random=3", caption: "SDN01 Banjar Harjo" },
-    { src: "https://picsum.photos/800/400?random=4", caption: "Halaman" },
-  ];
-
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header Section dengan Background Gelap */}
+      {/* Header Section dengan Background */}
       <div 
         className="relative bg-cover bg-center pt-20" 
         style={{
@@ -41,78 +28,62 @@ const ProfilPage = () => {
         {/* Overlay Gelap */}
         <div className="absolute inset-0 bg-black/70"></div>
 
-        {/* Content */}
-        <div className="relative z-10 container mx-auto px-4 py-12">
-          {/* Judul */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+        {/* Content - Hanya Judul dengan Padding Lebih Besar */}
+        <div className="relative z-10 container mx-auto px-4 py-32 md:py-40 lg:py-48">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
               Profile SD Negeri 1 Banjar Harjo
             </h1>
-          </div>
-
-          {/* Slider */}
-          <div className="relative max-w-4xl mx-auto mb-8">
-            <div className="relative overflow-hidden rounded-lg shadow-2xl">
-              <img 
-                src={slides[currentSlide].src} 
-                alt={slides[currentSlide].caption} 
-                className="w-full h-64 md:h-80 object-cover" 
-              />
-              
-              {/* Tombol Prev */}
-              <button 
-                onClick={prevSlide} 
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 p-3 rounded-full shadow-lg hover:bg-white transition transform hover:scale-110"
-              >
-                <ChevronLeftIcon className="w-6 h-6 text-gray-800" />
-              </button>
-              
-              {/* Tombol Next */}
-              <button 
-                onClick={nextSlide} 
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 p-3 rounded-full shadow-lg hover:bg-white transition transform hover:scale-110"
-              >
-                <ChevronRightIcon className="w-6 h-6 text-gray-800" />
-              </button>
-              
-              {/* Caption */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                <p className="text-white font-semibold text-center text-lg">
-                  {slides[currentSlide].caption}
-                </p>
-              </div>
-            </div>
-
-            {/* Thumbnail Navigasi */}
-            <div className="flex justify-center gap-3 mt-4">
-              {slides.map((slide, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-20 h-16 rounded-lg overflow-hidden border-2 transition ${
-                    currentSlide === index 
-                      ? 'border-blue-500 scale-110' 
-                      : 'border-white/50 hover:border-white'
-                  }`}
-                >
-                  <img 
-                    src={slide.src} 
-                    alt={slide.caption}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Judul Section Putih */}
-      <div className="bg-white py-12">
-        <div className="text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-            SD Negeri 01 Banjar Harjo
-          </h2>
+      {/* Visi dan Misi Section */}
+      <div className="bg-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            
+            {/* Visi */}
+            <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
+              <div className="bg-blue-500 text-white py-4 px-6 flex items-center justify-center">
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-3">
+                  <EyeIcon className="w-6 h-6 text-blue-600" />
+                </div>
+                <h3 className="text-3xl font-bold">Visi</h3>
+              </div>
+              <div className="p-8">
+                <p className="text-gray-700 leading-relaxed text-justify">
+                  Membentuk pembelajar yang akhlakul karimah, berilmu, beretika, berwawasan lingkungan untuk menuju pentas dunia.
+                </p>
+              </div>
+            </div>
+
+            {/* Misi */}
+            <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition">
+              <div className="bg-blue-500 text-white py-4 px-6 flex items-center justify-center">
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-3">
+                  <ClipboardDocumentListIcon className="w-6 h-6 text-blue-600" />
+                </div>
+                <h3 className="text-3xl font-bold">Misi</h3>
+              </div>
+              <div className="p-8">
+                <ul className="space-y-3 text-gray-700">
+                  <li className="flex items-start">
+                    <span className="text-blue-600 mr-2 font-bold">•</span>
+                    <span>Mewujudkan pendidikan dengan keteladanan</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 mr-2 font-bold">•</span>
+                    <span>Mengembangkan budaya belajar dengan didasari pada kecintaan terhadap ilmu pengetahuan</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 mr-2 font-bold">•</span>
+                    <span>Meningkatkan fasilitas sekolah menuju sekolah bersih, sehat dan berwawasan lingkungan</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -198,57 +169,8 @@ const ProfilPage = () => {
         </div>
       </div>
 
-      {/* Visi dan Misi Section */}
-      <div className="bg-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            
-            {/* Visi */}
-            <div className="bg-white border-2 border-gray-200 rounded-xl p-8 shadow-lg hover:shadow-xl transition">
-              <div className="flex items-center justify-center mb-6">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-                  <EyeIcon className="w-8 h-8 text-blue-600" />
-                </div>
-              </div>
-              <div className="bg-blue-500 text-white py-3 px-6 rounded-lg mb-6">
-                <h3 className="text-2xl font-bold text-center">Visi</h3>
-              </div>
-              <p className="text-gray-700 leading-relaxed text-center">
-                Membentuk pembelajar yang akhlakul karimah, berilmu, beretika, berwawasan lingkungan untuk menuju pentas dunia.
-              </p>
-            </div>
-
-            {/* Misi */}
-            <div className="bg-white border-2 border-gray-200 rounded-xl p-8 shadow-lg hover:shadow-xl transition">
-              <div className="flex items-center justify-center mb-6">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-                  <ClipboardDocumentListIcon className="w-8 h-8 text-blue-600" />
-                </div>
-              </div>
-              <div className="bg-blue-500 text-white py-3 px-6 rounded-lg mb-6">
-                <h3 className="text-2xl font-bold text-center">Misi</h3>
-              </div>
-              <ul className="space-y-3 text-gray-700">
-                <li className="flex items-start">
-                  <span className="text-blue-600 mr-2 font-bold">•</span>
-                  <span>Mewujudkan pendidikan dengan keteladanan</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-blue-600 mr-2 font-bold">•</span>
-                  <span>Mengembangkan budaya belajar dengan didasari pada kecintaan terhadap ilmu pengetahuan</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-blue-600 mr-2 font-bold">•</span>
-                  <span>Meningkatkan fasilitas sekolah menuju sekolah bersih, sehat dan berwawasan lingkungan</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Fasilitas Sekolah Section */}
-      <div className="bg-gray-50 py-16">
+      <div className="bg-white py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
             Fasilitas Sekolah
@@ -300,7 +222,7 @@ const ProfilPage = () => {
             </div>
           </div>
 
-          {/* Slider Navigation untuk Fasilitas (Optional) */}
+          {/* Slider Navigation untuk Fasilitas */}
           <div className="flex justify-center mt-8 gap-4">
             <button className="w-10 h-10 rounded-full bg-gray-300 hover:bg-gray-400 flex items-center justify-center transition">
               <ChevronLeftIcon className="w-5 h-5 text-gray-700" />
