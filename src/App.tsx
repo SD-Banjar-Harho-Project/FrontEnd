@@ -1,14 +1,15 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import SambutanPage from './pages/SambutanPage';
-import ProfilPage from './pages/ProfilPage';
-import GaleriPage from './pages/GaleriPage';
-import BeritaPage from './pages/BeritaPage';
-import PlaceholderPage from './pages/PlaceholderPage';
-import GuruPage from './pages/GuruPage';
-import PendaftaranPage from './pages/PendaftaranPage';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import SambutanPage from "./pages/SambutanPage";
+import ProfilPage from "./pages/ProfilPage";
+import GaleriPage from "./pages/GaleriPage";
+import BeritaPage from "./pages/BeritaPage";
+import PlaceholderPage from "./pages/PlaceholderPage";
+import GuruPage from "./pages/GuruPage";
+import PendaftaranPage from "./pages/PendaftaranPage";
 
 function App() {
   return (
@@ -25,12 +26,30 @@ function App() {
             <Route path="/guru" element={<GuruPage />} />
             <Route path="/pendaftaran" element={<PendaftaranPage />} />
             <Route path="/about" element={<PlaceholderPage title="About" />} />
-            <Route path="/siswa" element={<PlaceholderPage title="Data Siswa" />} />
-            <Route path="/lainnya" element={<PlaceholderPage title="Lainnya" />} />
-            <Route path="/kontak" element={<PlaceholderPage title="Kontak" />} />
-            <Route path="/ppdb" element={<PlaceholderPage title="PPDB SD N1 BANJAR HARJO" />} />
-            <Route path="/panduan-ppdb" element={<PlaceholderPage title="Panduan PPDB" />} />
-            <Route path="/lokasi" element={<PlaceholderPage title="Lokasi" />} />
+            <Route
+              path="/siswa"
+              element={<PlaceholderPage title="Data Siswa" />}
+            />
+            <Route
+              path="/lainnya"
+              element={<PlaceholderPage title="Lainnya" />}
+            />
+            <Route
+              path="/kontak"
+              element={<PlaceholderPage title="Kontak" />}
+            />
+            <Route
+              path="/ppdb"
+              element={<PlaceholderPage title="PPDB SD N1 BANJAR HARJO" />}
+            />
+            <Route
+              path="/panduan-ppdb"
+              element={<PlaceholderPage title="Panduan PPDB" />}
+            />
+            <Route
+              path="/lokasi"
+              element={<PlaceholderPage title="Lokasi" />}
+            />
           </Routes>
         </main>
         <Footer />
