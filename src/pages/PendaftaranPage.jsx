@@ -4,7 +4,7 @@ const PendaftaranPage = () => {
       {/* Hero Section */}
       <div 
         className="relative bg-cover bg-center pt-20" 
-        style={{backgroundImage: 'url(https://picsum.photos/seed/ppdb/1920/500)'}}
+        style={{backgroundImage: 'url(https://sdnbandarharjo02.dikdas.semarangkota.go.id/uploads/gallery/media/WhatsApp%20Image%202023-06-08%20at%2021.08.49.jpeg)'}}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50"></div>
         

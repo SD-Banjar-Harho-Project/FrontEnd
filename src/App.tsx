@@ -10,6 +10,9 @@ import BeritaPage from "./pages/BeritaPage";
 import PlaceholderPage from "./pages/PlaceholderPage";
 import GuruPage from "./pages/GuruPage";
 import PendaftaranPage from "./pages/PendaftaranPage";
+import KontakPage from './pages/KontakPage';
+import LoginPage from './pages/LoginPage';
+import SiswaPage from './pages/SiswaPage';
 
 function App() {
   return (
@@ -24,11 +27,12 @@ function App() {
             <Route path="/galeri" element={<GaleriPage />} />
             <Route path="/berita" element={<BeritaPage />} />
             <Route path="/guru" element={<GuruPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/pendaftaran" element={<PendaftaranPage />} />
-            <Route path="/about" element={<PlaceholderPage title="About" />} />
+            <Route path="/about" element={<ProfilPage title="About" />} />
             <Route
               path="/siswa"
-              element={<PlaceholderPage title="Data Siswa" />}
+              element={<SiswaPage title="Data Siswa" />}
             />
             <Route
               path="/lainnya"
@@ -36,7 +40,7 @@ function App() {
             />
             <Route
               path="/kontak"
-              element={<PlaceholderPage title="Kontak" />}
+              element={<KontakPage title="Kontak" />}
             />
             <Route
               path="/ppdb"

@@ -9,7 +9,7 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                <img src="/logo_sd.png" alt="Logo SD"></img>
+                <img src="/src/assets/images/logo/logo_sd.png" alt="Logo SD"></img>
               </div>
             </div>
             <p className="text-sm text-gray-400 mb-4">
@@ -32,14 +32,6 @@ const Footer = () => {
                   className="text-gray-400 hover:text-white transition text-sm"
                 >
                   Sambutan
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/profil"
-                  className="text-gray-400 hover:text-white transition text-sm"
-                >
-                  Profil Sekolah
                 </Link>
               </li>
               <li>

@@ -8,7 +8,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-              <img src="/logo_sd.png" alt="Logo SD"></img>
+              <img src="/src/assets/images/logo/logo_sd.png" alt="Logo SD"></img>
             </div>
             <span className="text-sm font-bold text-gray-800 hidden lg:block">
               MOTTO
@@ -58,6 +58,12 @@ const Navbar = () => {
               className="text-gray-700 hover:text-blue-600 transition"
             >
               Kontak
+            </Link>
+            <Link
+              to="/Login"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-md transition duration-300 transform hover:scale-105"
+            >
+              Login
             </Link>
           </div>
 

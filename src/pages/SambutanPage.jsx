@@ -12,7 +12,7 @@ const SambutanPage = () => {
           
           <div className="mb-8">
             <img 
-              src="https://picsum.photos/seed/headmaster-full/800/600" 
+              src="src/assets/images/gallery/sambutan_kepala_sekolah.png" 
               alt="Kepala Sekolah"
               className="w-full rounded-lg shadow-md"
             />

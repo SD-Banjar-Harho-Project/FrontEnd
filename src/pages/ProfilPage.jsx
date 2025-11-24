@@ -21,7 +21,7 @@ const ProfilPage = () => {
       <div 
         className="relative bg-cover bg-center pt-20" 
         style={{
-          backgroundImage: 'url(https://picsum.photos/seed/school-dark/1920/600)',
+          backgroundImage: 'url(https://sdnbandarharjo02.dikdas.semarangkota.go.id/uploads/gallery/media/WhatsApp%20Image%202023-06-08%20at%2021.08.49.jpeg)',
           backgroundColor: '#1a1a2e'
         }}
       >
