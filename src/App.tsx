@@ -15,7 +15,7 @@ import LoginPage from "./pages/LoginPage";
 import SiswaPage from "./pages/SiswaPage";
 
 // Import Admin Components
-import AdminLayout from "./layouts/AdminLayout";
+import AdminLayout from "./layout/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import TambahGuruPage from "./pages/admin/TambahGuruPage";
 

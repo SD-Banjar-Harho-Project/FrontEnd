@@ -187,21 +187,6 @@ const LoginPage = () => {
                   )}
                 </button>
               </form>
-
-              {/* Development Mode */}
-              {import.meta.env.DEV && (
-                <div className="mt-6 p-4 bg-yellow-100 border border-yellow-400 rounded-lg">
-                  <p className="text-sm text-gray-700 text-center mb-2">
-                    <strong>🔧 Mode Development</strong>
-                  </p>
-                  <p className="text-xs text-gray-600 text-center">
-                    Pastikan backend sudah running di: <br />
-                    <code className="bg-gray-200 px-2 py-1 rounded">
-                      http://localhost:5000
-                    </code>
-                  </p>
-                </div>
-              )}
             </div>
           </div>
         </div>
