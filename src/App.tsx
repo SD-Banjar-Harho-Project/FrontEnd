@@ -18,6 +18,11 @@ import SiswaPage from "./pages/SiswaPage";
 import AdminLayout from "./layout/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import TambahGuruPage from "./pages/admin/TambahGuruPage";
+import EditGuru from "./pages/admin/EditGuru";
+import TambahMuridPage from "./pages/admin/TambahMuridPage";
+import EditMurid from "./pages/admin/EditMurid";
+import TambahBeritaPage from "./pages/admin/TambahBeritaPage";
+import EditBerita from "./pages/admin/EditBerita";
 
 // Public Layout Wrapper
 const PublicLayout = ({ children }: { children: React.ReactNode }) => (
@@ -149,7 +154,7 @@ function App() {
           path="/lokasi"
           element={
             <PublicLayout>
-              <PlaceholderPage title="Lokasi" />
+              <KontakPage title="Lokasi" />
             </PublicLayout>
           }
         />
@@ -167,27 +172,49 @@ function App() {
                   {/* Guru Routes */}
                   <Route path="guru" element={<AdminDashboard />} />
                   <Route path="guru/tambah" element={<TambahGuruPage />} />
-                  {/*
-                  <Route path="guru/edit/:id" element={<EditGuruPage />} />
-
-                  {/* Murid Routes
+                  <Route path="guru/edit/:id" element={<EditGuru />} />
+                  
+                  {/* Murid Routes */}
                   <Route path="murid" element={<AdminDashboard />} />
                   <Route path="murid/tambah" element={<TambahMuridPage />} />
-                  <Route path="murid/edit/:id" element={<EditMuridPage />} />
+                  <Route path="murid/edit/:id" element={<EditMurid />} />
 
-                  {/* Berita Routes
+                  {/* Berita Routes */}
                   <Route path="berita" element={<AdminDashboard />} />
                   <Route path="berita/tambah" element={<TambahBeritaPage />} />
-                  <Route path="berita/edit/:id" element={<EditBeritaPage />} />
-                  */}
+                  <Route path="berita/edit/:id" element={<EditBerita />} />
                 </Routes>
               </AdminLayout>
             </ProtectedRoute>
           }
         />
+
+        {/* 404 Not Found */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
 }
+
+// 404 Component
+const NotFoundPage = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="text-center px-4">
+      <h1 className="text-9xl font-bold text-gray-800 mb-4">404</h1>
+      <h2 className="text-3xl font-semibold text-gray-700 mb-4">
+        Halaman Tidak Ditemukan
+      </h2>
+      <p className="text-gray-600 mb-8 text-lg">
+        Maaf, halaman yang Anda cari tidak ada.
+      </p>
+      <a
+        href="/"
+        className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300"
+      >
+        Kembali ke Beranda
+      </a>
+    </div>
+  </div>
+);
 
 export default App;

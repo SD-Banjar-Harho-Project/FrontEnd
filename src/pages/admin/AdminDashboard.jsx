@@ -6,17 +6,18 @@ import {
   NewspaperIcon,
   PencilSquareIcon,
   TrashIcon,
-  PlusIcon
+  PlusIcon,
 } from "@heroicons/react/24/outline";
 import api from "../../services/api";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [activeTable, setActiveTable] = useState("guru");
+
   const [stats, setStats] = useState({
     totalGuru: 0,
     totalMurid: 0,
-    totalBerita: 0
+    totalBerita: 0,
   });
 
   const [guruData, setGuruData] = useState([]);
@@ -26,103 +27,133 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch data dari API
+  // Mapping mata pelajaran
+  const subjectsMap = {
+    1: "Matematika",
+    2: "Bahasa Indonesia",
+    3: "Bahasa Inggris",
+    4: "IPA",
+    5: "IPS",
+    6: "Seni Budaya",
+    7: "Pendidikan Jasmani",
+    8: "PKN",
+    9: "Agama",
+    10: "TIK",
+  };
+
   useEffect(() => {
     fetchAllData();
   }, []);
 
+  // FUNGSI AMAN UNTUK AMBIL ARRAY DARI RESPONSE APA PUN BENTUKNYA
+  const getArrayFromResponse = (response) => {
+    if (!response) return [];
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response.data)) return response.data;
+    if (response.teachers && Array.isArray(response.teachers)) return response.teachers;
+    if (response.students && Array.isArray(response.students)) return response.students;
+    if (response.posts && Array.isArray(response.posts)) return response.posts;
+    if (response.result && Array.isArray(response.result)) return response.result;
+    if (response.items && Array.isArray(response.items)) return response.items;
+
+    // Kalau masih object, cari value yang array
+    const values = Object.values(response);
+    const foundArray = values.find(Array.isArray);
+    return foundArray || [];
+  };
+
   const fetchAllData = async () => {
     setLoading(true);
     setError(null);
-
     try {
-      // Fetch semua data secara parallel
-      const [guruResponse, muridResponse, beritaResponse] = await Promise.all([
+      const [guruRes, muridRes, beritaRes] = await Promise.all([
         api.get("/teachers"),
         api.get("/students"),
-        api.get("/posts")
+        api.get("/posts"),
       ]);
 
-      // Set data guru
-      const guruList = guruResponse.data || guruResponse;
-      setGuruData(Array.isArray(guruList) ? guruList : []);
+      const guruList = getArrayFromResponse(guruRes);
+      const muridList = getArrayFromResponse(muridRes);
+      const beritaList = getArrayFromResponse(beritaRes);
 
-      // Set data murid
-      const muridList = muridResponse.data || muridResponse;
-      setMuridData(Array.isArray(muridList) ? muridList : []);
+      // Tambah nama mata pelajaran untuk guru
+      const guruWithSubject = guruList.map((g) => ({
+        ...g,
+        subject_name:
+          g.subject?.name ||
+          g.mata_pelajaran ||
+          subjectsMap[g.subject_id] ||
+          subjectsMap[g.mapel_id] ||
+          "Tidak Diketahui",
+      }));
 
-      // Set data berita
-      const beritaList = beritaResponse.data || beritaResponse;
-      setBeritaData(Array.isArray(beritaList) ? beritaList : []);
+      setGuruData(guruWithSubject);
+      setMuridData(muridList);
+      setBeritaData(beritaList);
 
-      // Update stats
       setStats({
-        totalGuru: Array.isArray(guruList) ? guruList.length : 0,
-        totalMurid: Array.isArray(muridList) ? muridList.length : 0,
-        totalBerita: Array.isArray(beritaList) ? beritaList.length : 0
+        totalGuru: guruWithSubject.length,
+        totalMurid: muridList.length,
+        totalBerita: beritaList.length,
       });
     } catch (err) {
-      console.error("Error fetching data:", err);
-      setError("Gagal memuat data. Silakan refresh halaman.");
+      console.error("Gagal mengambil data:", err);
+      setError("Gagal memuat data. Pastikan backend berjalan di http://localhost:5000");
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (id, type) => {
-    if (!window.confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-      return;
-    }
-
+    if (!window.confirm("Yakin ingin menghapus data ini?")) return;
     try {
       let endpoint = "";
-
-      if (type === "guru") {
-        endpoint = `/teachers/${id}`;
-      } else if (type === "murid") {
-        endpoint = `/students/${id}`;
-      } else if (type === "berita") {
-        endpoint = `/posts/${id}`;
-      }
+      if (type === "guru") endpoint = `/teachers/${id}`;
+      if (type === "murid") endpoint = `/students/${id}`;
+      if (type === "berita") endpoint = `/posts/${id}`;
 
       await api.delete(endpoint);
-
-      // Refresh data setelah delete
       await fetchAllData();
-
       alert("Data berhasil dihapus!");
     } catch (err) {
-      console.error("Error deleting data:", err);
-      alert("Gagal menghapus data. Silakan coba lagi.");
+      alert("Gagal menghapus data. Pastikan masih login.");
     }
   };
 
   const handleEdit = (id, type) => {
-    if (type === "guru") {
-      navigate(`/admin/guru/edit/${id}`);
-    } else if (type === "murid") {
-      navigate(`/admin/murid/edit/${id}`);
-    } else if (type === "berita") {
-      navigate(`/admin/berita/edit/${id}`);
-    }
+    if (type === "guru") navigate(`/admin/guru/edit/${id}`);
+    if (type === "murid") navigate(`/admin/murid/edit/${id}`);
+    if (type === "berita") navigate(`/admin/berita/edit/${id}`);
   };
 
   const handleTambah = () => {
-    if (activeTable === "guru") {
-      navigate("/admin/guru/tambah");
-    } else if (activeTable === "murid") {
-      navigate("/admin/murid/tambah");
-    } else if (activeTable === "berita") {
-      navigate("/admin/berita/tambah");
-    }
+    if (activeTable === "guru") navigate("/admin/guru/tambah");
+    if (activeTable === "murid") navigate("/admin/murid/tambah");
+    if (type === "berita") navigate("/admin/berita/tambah");
+  };
+
+  const getTableTitle = () => {
+    return activeTable === "guru"
+      ? "Daftar Guru"
+      : activeTable === "murid"
+      ? "Daftar Murid"
+      : "Daftar Artikel";
+  };
+
+  const getTambahText = () => {
+    return activeTable === "guru"
+      ? "Tambah Guru"
+      : activeTable === "murid"
+      ? "Tambah Murid"
+      : "Tambah Artikel";
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg font-medium">Memuat data...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-600 border-t-transparent"></div>
+          <p className="mt-4 text-xl text-gray-600">Memuat data...</p>
         </div>
       </div>
     );
@@ -131,17 +162,9 @@ const AdminDashboard = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-        <div className="text-center bg-white rounded-lg shadow-lg p-8 max-w-md">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </div>
-          <p className="text-red-600 mb-6 text-lg font-medium">{error}</p>
-          <button
-            onClick={fetchAllData}
-            className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors font-medium shadow-md"
-          >
+        <div className="bg-white p-8 rounded-xl shadow-lg text-center">
+          <p className="text-red-600 text-lg mb-4">{error}</p>
+          <button onClick={fetchAllData} className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
             Coba Lagi
           </button>
         </div>
@@ -154,81 +177,44 @@ const AdminDashboard = () => {
       <div className="max-w-7xl mx-auto p-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800">DASHBOARD</h1>
-          <p className="text-gray-600 mt-2">
-            Kelola data guru, murid, dan artikel SD Negeri 01 Bandarharjo
-          </p>
+          <h1 className="text-4xl font-bold text-gray-800">DASHBOARD ADMIN</h1>
+          <p className="text-gray-600 mt-2">Kelola data guru, murid, dan artikel SD Negeri 01 Bandarharjo</p>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {/* Card Guru */}
-          <div className="bg-white rounded-lg shadow-md border-2 border-gray-200 p-6 hover:shadow-lg transition-shadow">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-3">
-                <UserIcon className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="text-gray-700 text-lg font-semibold mb-2">Guru</h3>
-              <p className="text-5xl font-bold text-blue-600">
-                {String(stats.totalGuru).padStart(2, '0')}
-              </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div className="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition">
+            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <UserIcon className="w-12 h-12 text-blue-600" />
             </div>
+            <p className="text-gray-600 text-lg">Total Guru</p>
+            <p className="text-5xl font-bold text-blue-600 mt-2">{String(stats.totalGuru).padStart(2, "0")}</p>
           </div>
-
-          {/* Card Murid */}
-          <div className="bg-white rounded-lg shadow-md border-2 border-gray-200 p-6 hover:shadow-lg transition-shadow">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-3">
-                <AcademicCapIcon className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-gray-700 text-lg font-semibold mb-2">Murid</h3>
-              <p className="text-5xl font-bold text-green-600">{stats.totalMurid}</p>
+          <div className="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <AcademicCapIcon className="w-12 h-12 text-green-600" />
             </div>
+            <p className="text-gray-600 text-lg">Total Murid</p>
+            <p className="text-5xl font-bold text-green-600 mt-2">{stats.totalMurid}</p>
           </div>
-
-          {/* Card Fasilitas - Placeholder */}
-          <div className="bg-white rounded-lg shadow-md border-2 border-gray-200 p-6 hover:shadow-lg transition-shadow">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mb-3">
-                <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-              </div>
-              <h3 className="text-gray-700 text-lg font-semibold mb-2">Fasilitas</h3>
-              <p className="text-5xl font-bold text-yellow-600">0</p>
+          <div className="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition">
+            <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <NewspaperIcon className="w-12 h-12 text-purple-600" />
             </div>
-          </div>
-
-          {/* Card Artikel */}
-          <div className="bg-white rounded-lg shadow-md border-2 border-gray-200 p-6 hover:shadow-lg transition-shadow">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-3">
-                <NewspaperIcon className="w-8 h-8 text-purple-600" />
-              </div>
-              <h3 className="text-gray-700 text-lg font-semibold mb-2">Artikel</h3>
-              <p className="text-5xl font-bold text-purple-600">
-                {String(stats.totalBerita).padStart(2, '0')}
-              </p>
-            </div>
+            <p className="text-gray-600 text-lg">Total Artikel</p>
+            <p className="text-5xl font-bold text-purple-600 mt-2">{String(stats.totalBerita).padStart(2, "0")}</p>
           </div>
         </div>
 
-        {/* Section Title */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Statistik Data</h2>
-        </div>
-
-        {/* Dropdown Filter */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Pilih Data yang Ingin Ditampilkan:
-              </label>
+        {/* Pilih Data & Tambah */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div>
+              <label className="block text-lg font-medium text-gray-700 mb-3">Pilih Data untuk Dikelola:</label>
               <select
                 value={activeTable}
                 onChange={(e) => setActiveTable(e.target.value)}
-                className="w-full md:w-80 px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                className="w-full lg:w-96 px-5 py-4 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 text-lg"
               >
                 <option value="guru">Data Guru</option>
                 <option value="murid">Data Murid</option>
@@ -237,263 +223,116 @@ const AdminDashboard = () => {
             </div>
             <button
               onClick={handleTambah}
-              className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2 font-medium shadow-md hover:shadow-lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-xl flex items-center gap-3 text-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1"
             >
-              <PlusIcon className="w-5 h-5" /> Tambah Data
+              <PlusIcon className="w-8 h-8" />
+              {getTambahText()}
             </button>
           </div>
         </div>
 
-        {/* Tables */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
-          {/* Table Header */}
-          <div className="px-6 py-4 bg-gray-50 border-b-2 border-gray-200">
-            <h2 className="text-xl font-bold text-gray-800">
-              {activeTable === "guru" && "Data Guru"}
-              {activeTable === "murid" && "Data Murid"}
-              {activeTable === "berita" && "Data Artikel"}
-            </h2>
+        {/* Tabel */}
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-5">
+            <h2 className="text-2xl font-bold text-white">{getTableTitle()}</h2>
           </div>
-
-          {/* Table Content */}
           <div className="overflow-x-auto">
-            {/* Tabel Guru */}
-            {activeTable === "guru" && (
-              <table className="w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      No
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Nama
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      NIP
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Mata Pelajaran
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Aksi
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {guruData.length === 0 ? (
-                    <tr>
-                      <td
-                        colSpan="5"
-                        className="px-6 py-8 text-center text-gray-500"
-                      >
-                        <div className="flex flex-col items-center justify-center">
-                          <UserIcon className="w-16 h-16 text-gray-300 mb-3" />
-                          <p className="text-lg font-medium">Belum ada data guru</p>
-                          <p className="text-sm text-gray-400 mt-1">Klik tombol "Tambah Data" untuk menambahkan guru</p>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : (
-                    guruData.map((guru, index) => (
-                      <tr key={guru.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {index + 1}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {guru.name || guru.nama}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {guru.nip || "-"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {guru.subject || guru.mapel || "-"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => handleEdit(guru.id, "guru")}
-                              className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded transition"
-                              title="Edit"
-                            >
-                              <PencilSquareIcon className="w-5 h-5" />
-                            </button>
-                            <button
-                              onClick={() => handleDelete(guru.id, "guru")}
-                              className="text-red-600 hover:text-red-800 hover:bg-red-50 p-2 rounded transition"
-                              title="Hapus"
-                            >
-                              <TrashIcon className="w-5 h-5" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
+            <table className="w-full">
+              <thead className="bg-blue-50 border-b-2 border-blue-200">
+                <tr>
+                  <th className="px-8 py-4 text-left text-sm font-bold text-gray-700 uppercase">No</th>
+                  {activeTable === "guru" && (
+                    <>
+                      <th className="px-8 py-4 text-left text-sm font-bold text-gray-700 uppercase">Nama</th>
+                      <th className="px-8 py-4 text-left text-sm font-bold text-gray-700 uppercase">NIP</th>
+                      <th className="px-8 py-4 text-left text-sm font-bold text-gray-700 uppercase">Mata Pelajaran</th>
+                    </>
                   )}
-                </tbody>
-              </table>
-            )}
+                  {activeTable === "murid" && (
+                    <>
+                      <th className="px-8 py-4 text-left text-sm font-bold text-gray-700 uppercase">Nama</th>
+                      <th className="px-8 py-4 text-left text-sm font-bold text-gray-700 uppercase">NISN</th>
+                      <th className="px-8 py-4 text-left text-sm font-bold text-gray-700 uppercase">Kelas</th>
+                      <th className="px-8 py-4 text-left text-sm font-bold text-gray-700 uppercase">Jenis Kelamin</th>
+                    </>
+                  )}
+                  {activeTable === "berita" && (
+                    <>
+                      <th className="px-8 py-4 text-left text-sm font-bold text-gray-700 uppercase">Judul</th>
+                      <th className="px-8 py-4 text-left text-sm font-bold text-gray-700 uppercase">Tanggal</th>
+                      <th className="px-8 py-4 text-left text-sm font-bold text-gray-700 uppercase">Penulis</th>
+                    </>
+                  )}
+                  <th className="px-8 py-4 text-center text-sm font-bold text-gray-700 uppercase">Aksi</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {activeTable === "guru" && guruData.length === 0 && (
+                  <tr><td colSpan="5" className="text-center py-16 text-gray-500 text-lg">Belum ada data guru</td></tr>
+                )}
+                {activeTable === "guru" && guruData.map((g, i) => (
+                  <tr key={g.id} className="hover:bg-gray-50 transition">
+                    <td className="px-8 py-4">{i + 1}</td>
+                    <td className="px-8 py-4 font-medium">{g.name || g.nama || "-"}</td>
+                    <td className="px-8 py-4">{g.nip || "-"}</td>
+                    <td className="px-8 py-4">{g.subject_name}</td>
+                    <td className="px-8 py-4 text-center">
+                      <button onClick={() => handleEdit(g.id, "guru")} className="text-blue-600 hover:bg-blue-100 p-3 rounded-lg transition">
+                        <PencilSquareIcon className="w-6 h-6" />
+                      </button>
+                      <button onClick={() => handleDelete(g.id, "guru")} className="text-red-600 hover:bg-red-100 p-3 rounded-lg ml-3 transition">
+                        <TrashIcon className="w-6 h-6" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
 
-            {/* Tabel Murid */}
-            {activeTable === "murid" && (
-              <table className="w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      No
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Nama
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      NISN
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Kelas
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Jenis Kelamin
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Aksi
-                    </th>
+                {activeTable === "murid" && muridData.length === 0 && (
+                  <tr><td colSpan="6" className="text-center py-16 text-gray-500 text-lg">Belum ada data murid</td></tr>
+                )}
+                {activeTable === "murid" && muridData.map((m, i) => (
+                  <tr key={m.id} className="hover:bg-gray-50 transition">
+                    <td className="px-8 py-4">{i + 1}</td>
+                    <td className="px-8 py-4 font-medium">{m.name || m.nama}</td>
+                    <td className="px-8 py-4">{m.nisn || "-"}</td>
+                    <td className="px-8 py-4 text-center">{m.class || m.kelas || "-"}</td>
+                    <td className="px-8 py-4 text-center">
+                      {m.gender === "L" || m.jenisKelamin === "L" ? "Laki-laki" : "Perempuan"}
+                    </td>
+                    <td className="px-8 py-4 text-center">
+                      <button onClick={() => handleEdit(m.id, "murid")} className="text-blue-600 hover:bg-blue-100 p-3 rounded-lg transition">
+                        <PencilSquareIcon className="w-6 h-6" />
+                      </button>
+                      <button onClick={() => handleDelete(m.id, "murid")} className="text-red-600 hover:bg-red-100 p-3 rounded-lg ml-3 transition">
+                        <TrashIcon className="w-6 h-6" />
+                      </button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {muridData.length === 0 ? (
-                    <tr>
-                      <td
-                        colSpan="6"
-                        className="px-6 py-8 text-center text-gray-500"
-                      >
-                        <div className="flex flex-col items-center justify-center">
-                          <AcademicCapIcon className="w-16 h-16 text-gray-300 mb-3" />
-                          <p className="text-lg font-medium">Belum ada data murid</p>
-                          <p className="text-sm text-gray-400 mt-1">Klik tombol "Tambah Data" untuk menambahkan murid</p>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : (
-                    muridData.map((murid, index) => (
-                      <tr key={murid.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {index + 1}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {murid.name || murid.nama}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {murid.nisn || "-"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {murid.class || murid.kelas || "-"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {murid.gender || murid.jenisKelamin || "-"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => handleEdit(murid.id, "murid")}
-                              className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded transition"
-                              title="Edit"
-                            >
-                              <PencilSquareIcon className="w-5 h-5" />
-                            </button>
-                            <button
-                              onClick={() => handleDelete(murid.id, "murid")}
-                              className="text-red-600 hover:text-red-800 hover:bg-red-50 p-2 rounded transition"
-                              title="Hapus"
-                            >
-                              <TrashIcon className="w-5 h-5" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            )}
+                ))}
 
-            {/* Tabel Berita */}
-            {activeTable === "berita" && (
-              <table className="w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      No
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Judul
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Tanggal
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Penulis
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Aksi
-                    </th>
+                {activeTable === "berita" && beritaData.length === 0 && (
+                  <tr><td colSpan="5" className="text-center py-16 text-gray-500 text-lg">Belum ada artikel</td></tr>
+                )}
+                {activeTable === "berita" && beritaData.map((b, i) => (
+                  <tr key={b.id} className="hover:bg-gray-50 transition">
+                    <td className="px-8 py-4">{i + 1}</td>
+                    <td className="px-8 py-4 font-medium">{b.title || b.judul}</td>
+                    <td className="px-8 py-4">
+                      {b.created_at ? new Date(b.created_at).toLocaleDateString("id-ID") : b.tanggal || "-"}
+                    </td>
+                    <td className="px-8 py-4">{b.author || b.penulis || "Admin"}</td>
+                    <td className="px-8 py-4 text-center">
+                      <button onClick={() => handleEdit(b.id, "berita")} className="text-blue-600 hover:bg-blue-100 p-3 rounded-lg transition">
+                        <PencilSquareIcon className="w-6 h-6" />
+                      </button>
+                      <button onClick={() => handleDelete(b.id, "berita")} className="text-red-600 hover:bg-red-100 p-3 rounded-lg ml-3 transition">
+                        <TrashIcon className="w-6 h-6" />
+                      </button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {beritaData.length === 0 ? (
-                    <tr>
-                      <td
-                        colSpan="5"
-                        className="px-6 py-8 text-center text-gray-500"
-                      >
-                        <div className="flex flex-col items-center justify-center">
-                          <NewspaperIcon className="w-16 h-16 text-gray-300 mb-3" />
-                          <p className="text-lg font-medium">Belum ada data artikel</p>
-                          <p className="text-sm text-gray-400 mt-1">Klik tombol "Tambah Data" untuk menambahkan artikel</p>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : (
-                    beritaData.map((berita, index) => (
-                      <tr key={berita.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {index + 1}
-                        </td>
-                        <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                          {berita.title || berita.judul}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {berita.created_at
-                            ? new Date(berita.created_at).toLocaleDateString(
-                                "id-ID"
-                              )
-                            : berita.tanggal || "-"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {berita.author || berita.penulis || "Admin"}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => handleEdit(berita.id, "berita")}
-                              className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded transition"
-                              title="Edit"
-                            >
-                              <PencilSquareIcon className="w-5 h-5" />
-                            </button>
-                            <button
-                              onClick={() => handleDelete(berita.id, "berita")}
-                              className="text-red-600 hover:text-red-800 hover:bg-red-50 p-2 rounded transition"
-                              title="Hapus"
-                            >
-                              <TrashIcon className="w-5 h-5" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            )}
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

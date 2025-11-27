@@ -1,18 +1,20 @@
+// src/services/api.js → VERSI FINAL YANG BISA SEMUA!
+
 import axios from "axios";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+// Base URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
-// Create axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    Accept: "application/json",
   },
-  timeout: 10000
+  timeout: 10000,
 });
 
-// api.js - sudah benar
+// REQUEST INTERCEPTOR → tambah token otomatis
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -24,15 +26,30 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor - Handle errors
+// RESPONSE INTERCEPTOR → KUNCI UTAMA: RETURN response.data UNTUK SEMUA!
 api.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    // SELALU return response.data → ini yang membuat semua API call mudah
+    // Termasuk login → response.data.token langsung bisa diakses
+    return response.data;
+  },
   (error) => {
-    if (error.response?.status === 401) {
-      // Token expired - redirect to login
+    // Error handling global
+    const status = error.response?.status;
+
+    if (status === 401) {
+      console.warn("Token expired atau tidak valid → logout otomatis");
       localStorage.removeItem("token");
-      window.location.href = "/login";
+      localStorage.removeItem("user");
+      if (window.location.pathname.startsWith("/admin")) {
+        window.location.href = "/login";
+      }
     }
+
+    if (status === 403) alert("Akses ditolak!");
+    if (status === 404) console.warn("Endpoint tidak ditemukan:", error.config?.url);
+    if (status === 500) console.error("Server error!");
+
     return Promise.reject(error);
   }
 );
