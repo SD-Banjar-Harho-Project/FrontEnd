@@ -27,7 +27,7 @@ const Profil = () => {
           {/* Image */}
           <div className="w-full md:w-1/2 lg:w-2/5">
             <img 
-              src="https://picsum.photos/seed/school-building/600/700" 
+              src="src/assets/images/gallery/lomba_kaligrafi.jpg" 
               alt="Profil Sekolah" 
               className="rounded-lg shadow-xl w-full"
             />
