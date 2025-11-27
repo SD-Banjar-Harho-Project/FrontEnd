@@ -21,7 +21,7 @@ const ProfilPage = () => {
       <div 
         className="relative bg-cover bg-center pt-20" 
         style={{
-          backgroundImage: 'url(https://sdnbandarharjo02.dikdas.semarangkota.go.id/uploads/gallery/media/WhatsApp%20Image%202023-06-08%20at%2021.08.49.jpeg)',
+          backgroundImage: 'url(src/assets/images/gallery/sd-01.png)',
           backgroundColor: '#1a1a2e'
         }}
       >
@@ -96,27 +96,27 @@ const ProfilPage = () => {
             <InfoItem 
               icon={<AcademicCapIcon className="w-6 h-6 text-blue-600" />} 
               label="Nama Sekolah" 
-              value="SMP Negeri 1 Cibadak" 
+              value="SD Negri Bandarharjo 01" 
             />
             <InfoItem 
               icon={<UserIcon className="w-6 h-6 text-blue-600" />} 
               label="Nama Kepala Sekolah" 
-              value="Drs Ossad" 
+              value="Christina Ardiyanti, S.Pd" 
             />
             <InfoItem 
               icon={<MapPinIcon className="w-6 h-6 text-blue-600" />} 
               label="Alamat" 
-              value="Jl. Siliwangi No. 123 Cibadak Sukabumi - Jawa Barat 43351" 
+              value="Jl. Cumi-cumi Raya No 2 KOTA SEMARANG" 
             />
             <InfoItem 
               icon={<GlobeAltIcon className="w-6 h-6 text-blue-600" />} 
               label="Website/Email" 
-              value="smpn1cibadak.sch.id / smpn1cbd_kabsi@yahoo.com" 
+              value="sdnbandarharjo01.dikdas.go.id / sdnpedurungankidul01@gmail.com" 
             />
             <InfoItem 
               icon={<PhoneIcon className="w-6 h-6 text-blue-600" />} 
               label="No. Telp" 
-              value="(0266) 531333" 
+              value="(024) 6715408" 
             />
           </div>
 
@@ -125,16 +125,16 @@ const ProfilPage = () => {
             <InfoCard 
               icon={<DocumentTextIcon className="w-6 h-6 text-gray-500" />} 
               title="No. Pendirian Sekolah" 
-              value="-" 
-              items={[{label: "No. Sertifikat", value: "421 / 997 / 2005"}]} 
+              value="421.2/001/II/46/85" 
+              items={[{label: "No. Sertifikat", value: "01 / 10 / 1985"}]} 
             />
             <InfoCard 
               icon={<AcademicCapIcon className="w-6 h-6 text-gray-500" />} 
               title="Jenjang Akreditasi" 
               value="A" 
               items={[
-                {label: "Tahun Didirikan", value: "1965"},
-                {label: "Tahun Operasional", value: "1966"}
+                {label: "Tahun Didirikan", value: "1985"},
+                {label: "Tahun Operasional", value: "1985"}
               ]} 
             />
             <InfoCard 
@@ -147,13 +147,13 @@ const ProfilPage = () => {
               icon={<HomeIcon className="w-6 h-6 text-gray-500" />} 
               title="Status Kepemilikan Tanah" 
               value="Hak Milik" 
-              items={[{label: "Luas Tanah", value: "5.007 M²"}]} 
+              items={[{label: "Luas Tanah", value: "1.071 M²"}]} 
             />
             <InfoCard 
               icon={<BuildingOfficeIcon className="w-6 h-6 text-gray-500" />} 
               title="Status Kepemilikan Bangunan" 
               value="Pemerintah" 
-              items={[{label: "Luas Seluruh Bangunan", value: "2.140 M²"}]} 
+              items={[{label: "Luas Seluruh Bangunan", value: "1.071 M²"}]} 
             />
             <InfoCard 
               icon={<InformationCircleIcon className="w-6 h-6 text-gray-500" />} 
@@ -179,7 +179,7 @@ const ProfilPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:scale-105">
               <img 
-                src="https://picsum.photos/seed/aula-facility/400/300" 
+                src="https://inca.ac.id/wp-content/uploads/2025/05/Aula-Serbaguna-Sekolah.jpg" 
                 alt="Aula Sekolah"
                 className="w-full h-48 object-cover"
               />
@@ -190,7 +190,7 @@ const ProfilPage = () => {
             
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:scale-105">
               <img 
-                src="https://picsum.photos/seed/kantin-facility/400/300" 
+                src="https://awsimages.detik.net.id/community/media/visual/2022/08/28/10-tampilan-kantin-sekolah-super-keren-dijamin-bikin-iri.jpeg?w=1200" 
                 alt="Kantin"
                 className="w-full h-48 object-cover"
               />
@@ -201,7 +201,7 @@ const ProfilPage = () => {
             
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:scale-105">
               <img 
-                src="https://picsum.photos/seed/building-facility/400/300" 
+                src="src/assets/images/gallery/sd-01.png" 
                 alt="SDN01 Banjar Harjo"
                 className="w-full h-48 object-cover"
               />
@@ -212,7 +212,7 @@ const ProfilPage = () => {
             
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition transform hover:scale-105">
               <img 
-                src="https://picsum.photos/seed/field-facility/400/300" 
+                src="https://sdnbandarharjo02.dikdas.semarangkota.go.id/uploads/gallery/media/WhatsApp%20Image%202022-11-30%20at%2012.52.16.jpeg" 
                 alt="Halaman"
                 className="w-full h-48 object-cover"
               />
