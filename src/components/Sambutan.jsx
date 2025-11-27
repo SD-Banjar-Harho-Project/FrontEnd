@@ -24,18 +24,13 @@ const Sambutan = () => {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          {/* Image with Play Button */}
-          <div className="relative w-full md:w-1/2 lg:w-2/5">
+          {/* Image ONLY - tanpa tombol play */}
+          <div className="w-full md:w-1/2 lg:w-2/5">
             <img 
-              src="https://picsum.photos/seed/headmaster/600/700" 
+              src="src/assets/images/gallery/sambutan_kepala_sekolah.png" 
               alt="Kepala Sekolah" 
               className="rounded-lg shadow-xl w-full"
             />
-            <button className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg transition">
-              <svg className="w-8 h-8 text-blue-600 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
-              </svg>
-            </button>
           </div>
 
           {/* Content */}
@@ -44,7 +39,7 @@ const Sambutan = () => {
               Sambutan Kepala Sekolah
             </h2>
             <h3 className="text-xl text-gray-600 mb-6">
-              SMP Negeri 1 Cibadak
+              SD Negeri 01 BandarHarjo
             </h3>
             <p className="text-gray-700 leading-relaxed mb-6">
               "Puji dan syukur mari kita panjatkan kehadirat Allah SWT. Yang senantiasa dengan sifat kasih dan sayangnya banyak memberikan nikmat ..."
