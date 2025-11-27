@@ -1,53 +1,60 @@
-const SambutanPage = () => {
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
+const Sambutan = () => {
+  const navigate = useNavigate();
+
+  const handleLearnMore = () => {
+    Swal.fire({
+      title: 'Apakah Anda ingin melanjutkan?',
+      text: 'Anda akan diarahkan ke halaman sambutan lengkap',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Lanjutkan',
+      cancelButtonText: 'Batal',
+      confirmButtonColor: '#1E88E5',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/sambutan');
+      }
+    });
+  };
+
   return (
-    <div className="pt-20 min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Sambutan Kepala Sekolah
-          </h1>
-          <h2 className="text-2xl text-gray-600 mb-8">
-            SMP Negeri 1 Cibadak
-          </h2>
-          
-          <div className="mb-8">
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          {/* Image ONLY - tanpa tombol play */}
+          <div className="w-full md:w-1/2 lg:w-2/5">
             <img 
               src="src/assets/images/gallery/sambutan_kepala_sekolah.png" 
-              alt="Kepala Sekolah"
-              className="w-full rounded-lg shadow-md"
+              alt="Kepala Sekolah" 
+              className="rounded-lg shadow-xl w-full"
             />
           </div>
 
-          <div className="prose max-w-none">
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Puji dan syukur mari kita panjatkan kehadirat Allah SWT. Yang senantiasa dengan sifat kasih dan sayangnya banyak memberikan nikmat kepada kita semua. Shalawat serta salam semoga selalu tercurah kepada Nabi Muhammad SAW, keluarga, sahabat, dan pengikutnya hingga akhir zaman.
+          {/* Content */}
+          <div className="w-full md:w-1/2 lg:w-3/5">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+              Sambutan Kepala Sekolah
+            </h2>
+            <h3 className="text-xl text-gray-600 mb-6">
+              SD Negeri 01 BandarHarjo
+            </h3>
+            <p className="text-gray-700 leading-relaxed mb-6">
+              "Puji dan syukur mari kita panjatkan kehadirat Allah SWT. Yang senantiasa dengan sifat kasih dan sayangnya banyak memberikan nikmat ..."
             </p>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Selamat datang di website resmi SD Negeri 01 Bandar Harjo. Melalui website ini, kami berharap dapat memberikan informasi yang lengkap dan terkini mengenai berbagai kegiatan dan program pendidikan yang kami selenggarakan.
-            </p>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              SD Negeri 01 Bandar Harjo berkomitmen untuk memberikan pendidikan yang berkualitas dengan mengedepankan nilai-nilai karakter yang tercermin dalam visi kami: "Cerdas Beretika". Kami percaya bahwa pendidikan tidak hanya tentang akademik, tetapi juga tentang membentuk karakter yang kuat dan berakhlak mulia.
-            </p>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Kami terus berupaya meningkatkan kualitas pembelajaran dengan mengembangkan kurikulum yang inovatif, menyediakan fasilitas yang memadai, dan memberdayakan tenaga pendidik yang profesional dan berdedikasi tinggi.
-            </p>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Kepada seluruh siswa, orang tua, dan masyarakat, mari kita bersama-sama menciptakan lingkungan belajar yang kondusif dan menyenangkan. Dengan kerja sama yang baik, kita dapat mewujudkan generasi yang cerdas, berkarakter, dan siap menghadapi tantangan masa depan.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              Semoga Allah SWT senantiasa memberikan kemudahan dan keberkahan dalam setiap langkah kita. Aamiin.
-            </p>
-
-            <div className="mt-8 p-6 bg-blue-50 rounded-lg">
-              <p className="text-gray-700 font-semibold">Wassalamu'alaikum Wr. Wb.</p>
-              <p className="text-gray-800 font-bold mt-4">Kepala Sekolah</p>
-              <p className="text-gray-700">SD Negeri 01 Bandar Harjo</p>
-            </div>
+            <button 
+              onClick={handleLearnMore}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-md transition duration-300"
+            >
+              Lebih Lanjut
+            </button>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default SambutanPage;
+export default Sambutan;
