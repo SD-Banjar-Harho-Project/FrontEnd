@@ -39,7 +39,10 @@ const Profil = () => {
               Profil Sekolah
             </h2>
             <p className="text-gray-700 leading-relaxed mb-6">
-              Di samping adalah profil sekolah kami secara keseluruhan dari mulai bagian depan hingga seluruh fasilitas yang terdapat disekolah kami kami akan ...
+              SD Negeri Bandarharjo 01 merupakan sekolah dasar negeri yang berlokasi di Jl. Cumi-cumi Raya No 2, Kota Semarang. Sekolah ini memiliki akreditasi A berdasarkan Surat Keputusan (SK) No. 220/BAP-SM/X/2016 yang diterbitkan pada tanggal 16 Oktober 2016.
+              SD Negeri Bandarharjo 01 menyelenggarakan pendidikan selama sehari penuh dengan sistem 5 hari belajar. Sekolah ini berkomitmen untuk memberikan pendidikan berkualitas kepada para siswanya. Hal ini terlihat dari prestasi akademik yang diraih serta fasilitas yang memadai.
+              Sebagai sekolah negeri, SD Negeri Bandarharjo 01 berada di bawah naungan Kementerian Pendidikan dan Kebudayaan. Sekolah ini memiliki akses internet melalui metode lain, dan sumber listriknya berasal dari PLN. Untuk informasi lebih lanjut, Anda dapat menghubungi sekolah melalui email sdnbandarharjo01@yahoo.com.
+              SD Negeri Bandarharjo 01 merupakan pilihan yang tepat bagi orang tua yang menginginkan pendidikan berkualitas untuk anak-anak mereka di Kota Semarang.
             </p>
             <button 
               onClick={handleLearnMore}
