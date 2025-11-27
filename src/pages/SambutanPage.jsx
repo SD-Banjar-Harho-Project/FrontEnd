@@ -1,60 +1,103 @@
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-
-const Sambutan = () => {
-  const navigate = useNavigate();
-
-  const handleLearnMore = () => {
-    Swal.fire({
-      title: 'Apakah Anda ingin melanjutkan?',
-      text: 'Anda akan diarahkan ke halaman sambutan lengkap',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Ya, Lanjutkan',
-      cancelButtonText: 'Batal',
-      confirmButtonColor: '#1E88E5',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate('/sambutan');
-      }
-    });
-  };
-
+import backgroundSD from "/src/assets/images/gallery/sd-01.png"; 
+const SambutanPage = () => {
   return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          {/* Image ONLY - tanpa tombol play */}
-          <div className="w-full md:w-1/2 lg:w-2/5">
-            <img 
-              src="src/assets/images/gallery/sambutan_kepala_sekolah.png" 
-              alt="Kepala Sekolah" 
-              className="rounded-lg shadow-xl w-full"
-            />
-          </div>
-
-          {/* Content */}
-          <div className="w-full md:w-1/2 lg:w-3/5">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+    <div className="min-h-screen bg-gray-50">
+      {/* HEADER dengan Background Sekolah */}
+      <div
+        className="relative bg-cover bg-center pt-20 min-h-[350px]"
+        style={{ backgroundImage: `url(${backgroundSD})` }}
+      >
+        <div className="absolute inset-0 bg-black/70"></div>
+        <div className="relative z-10 text-center flex items-center justify-center h-full px-4 py-16">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-2xl">
               Sambutan Kepala Sekolah
-            </h2>
-            <h3 className="text-xl text-gray-600 mb-6">
-              SD Negeri 01 BandarHarjo
-            </h3>
-            <p className="text-gray-700 leading-relaxed mb-6">
-              "Puji dan syukur mari kita panjatkan kehadirat Allah SWT. Yang senantiasa dengan sifat kasih dan sayangnya banyak memberikan nikmat ..."
+            </h1>
+            <p className="text-lg md:text-xl text-white/90 mb-2">
+              Selamat datang di website resmi sekolah kami
             </p>
-            <button 
-              onClick={handleLearnMore}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-md transition duration-300"
-            >
-              Lebih Lanjut
-            </button>
+            <p className="text-2xl font-semibold text-white">
+              SD Negeri 01 Banjarharjo
+            </p>
           </div>
         </div>
       </div>
-    </section>
+
+      {/* ISI SAMBUTAN */}
+      <div className="container mx-auto px-4 py-16 max-w-6xl">
+        <div className="grid md:grid-cols-3 gap-10 items-start">
+          {/* Foto Kepala Sekolah */}
+          <div className="md:col-span-1">
+            <div className="sticky top-24">
+              <div className="bg-white rounded-2xl shadow-2xl p-6 border border-gray-200">
+                <img
+                  src="/images/kepsek.jpg"
+                  alt="Kepala Sekolah"
+                  className="w-full rounded-xl shadow-lg object-cover aspect-square"
+                  onError={(e) =>
+                    (e.target.src =
+                      "src/assets/images/gallery/sambutan_kepala_sekolah_2.png")
+                  }
+                />
+                <div className="mt-6 text-center">
+                  <h3 className="text-xl font-bold text-gray-800">
+                    Christina Ardiyanti, S.Pd.
+                  </h3>
+                  <p className="text-blue-600 font-medium">Kepala Sekolah</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Teks Sambutan */}
+          <div className="md:col-span-2">
+            <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100">
+              <h2 className="text-3xl font-bold text-gray-800 mb-8">
+                Assalamu'alaikum Warahmatullahi Wabarakatuh
+              </h2>
+
+              <div className="prose prose-lg max-w-none text-gray-700 space-y-6 leading-relaxed">
+                <p>
+                  Puji dan syukur kita panjatkan ke hadirat Allah SWT atas limpahan rahmat dan karunia-Nya, sehingga website resmi <strong>SD Negeri 01 Banjarharjo</strong> dapat hadir sebagai sarana informasi dan komunikasi bagi seluruh warga sekolah dan masyarakat.
+                </p>
+
+                <p>
+                  Melalui website ini, kami berupaya menyajikan informasi yang aktual, transparan, dan mudah diakses terkait berbagai kegiatan pembelajaran, prestasi siswa, program sekolah, serta pengumuman penting lainnya.
+                </p>
+
+                <p>
+                  SD Negeri 01 Banjarharjo senantiasa berkomitmen untuk mewujudkan visi <strong>“Terwujudnya Generasi Cerdas, Berakhlak Mulia, dan Berwawasan Lingkungan”</strong> melalui pembelajaran yang inovatif, berbasis teknologi, dan berorientasi pada pengembangan karakter.
+                </p>
+
+                <p>
+                  Kami percaya bahwa pendidikan yang berkualitas hanya dapat terwujud melalui kerja sama yang solid antara sekolah, orang tua, dan masyarakat. Oleh karena itu, kami sangat mengharapkan dukungan, saran, dan partisipasi aktif dari semua pihak demi kemajuan anak-anak kita.
+                </p>
+
+                <p>
+                  Semoga website ini dapat menjadi jembatan komunikasi yang efektif dan bermanfaat bagi kita semua.
+                </p>
+
+                <div className="mt-12 p-8 bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl border-l-4 border-blue-600">
+                  <p className="text-xl font-semibold text-gray-800 mb-2">
+                    Wassalamu'alaikum Warahmatullahi Wabarakatuh
+                  </p>
+                  <p className="text-lg font-bold text-blue-700 mt-8">
+                    Hormat kami,
+                  </p>
+                  <p className="text-2xl font-bold text-gray-800 mt-3">
+                    Christina Ardiyanti, S.Pd.
+                  </p>
+                  <p className="text-blue-600 font-medium">
+                    Kepala Sekolah SD Negeri 01 Banjarharjo
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default Sambutan;
+export default SambutanPage;
